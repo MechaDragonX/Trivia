@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Trivia.NET
+namespace Trivia.NET.QuizQuestion
 {
     public enum QuestionType
     {
