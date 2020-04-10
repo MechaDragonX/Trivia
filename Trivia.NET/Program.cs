@@ -27,7 +27,10 @@ namespace Trivia.NET
             Console.WriteLine("Welcome to the quiz program! Press any \"enter\" to continue!");
             Console.ReadLine();
 
-            Game game = new Game(QuestionImporter.ImportShortAnswer(questions));
+            //Game game = new Game(QuestionImporter.ImportAllShortAnswer(questions));
+            //game.Execute();
+
+            Game game = new Game(QuestionImporter.ImportFromConsole());
             game.Execute();
         }
     }
