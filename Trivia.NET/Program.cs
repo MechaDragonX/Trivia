@@ -32,13 +32,17 @@ namespace Trivia.NET
 
             DirectoryInfo currentDir = Directory.CreateDirectory(Environment.CurrentDirectory);
             Question[] questions = null;
-            //foreach (FileInfo file in currentDir.GetFiles())
-            //{
-            //    if (file.Extension == ".txt")
-            //        // questions = AutoStart().Result;
-            //}
+            foreach (FileInfo file in currentDir.GetFiles())
+            {
+                if(file.Extension == ".txt")
+                {
+                    questions = QuestionImporter.ImportFromFile(file.FullName).Result;
+                    break;
+                }
+            }
+            if(questions == null)
+                questions = ManualStart();
 
-            questions = ManualStart();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("File successfully read!");
             Console.ResetColor();
