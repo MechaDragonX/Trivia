@@ -1,60 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Trivia.NET.QuizQuestion;
 
 namespace Trivia.NET.GameEnvironment
 {
     public class QuestionImporter
     {
-        public static Question[] ImportFromConsole()
+        private static readonly List<string> types = new List<string>()
         {
+            QuestionType.ShortAnswer.ToString().ToLower(),
+            QuestionType.MultipleChoice.ToString().ToLower(),
+            QuestionType.TrueFalse.ToString().ToLower(),
+            QuestionType.FillBlank.ToString().ToLower()
+        };
+
+        public static async Task<Question[]> ImportFromFile(string path)
+        {
+            if(!File.Exists(path))
+                throw new FileNotFoundException("The file was not found!");
+            if(Path.GetExtension(path) != ".txt")
+                throw new NotSupportedException("Only \"*.txt\" files are supported!");
+
+            string[] data = await File.ReadAllLinesAsync(path);
+
             List<Question> questions = new List<Question>();
-            string typeString;
             QuestionType type = 0;
-            string query;
-            List<string> answers;
-            string currentLine;
-
-            while(true)
+            string query = "";
+            List<string> answers = new List<string>();
+            bool parsing = false;
+            foreach(string line in data)
             {
-                Console.WriteLine("Please the type of your question");
-                typeString = Console.ReadLine();
-                if(typeString.ToLower() == QuestionType.ShortAnswer.ToString().ToLower())
-                    type = QuestionType.ShortAnswer;
-                else if(typeString.ToLower() == QuestionType.MultipleChoice.ToString().ToLower())
-                    type = QuestionType.MultipleChoice;
-                else if(typeString.ToLower() == QuestionType.TrueFalse.ToString().ToLower())
-                    type = QuestionType.TrueFalse;
-                else if(typeString.ToLower() == QuestionType.FillBlank.ToString().ToLower())
-                    type = QuestionType.FillBlank;
-
-                Console.WriteLine("Please the type the name of your question:");
-                query = Console.ReadLine();
-                if(query.ToLower() == "exit")
-                    break;
-
-                Console.WriteLine("Please the type your answers. Press \"enter\" to move onto the next question.");
-                if (type == QuestionType.MultipleChoice)
-                    Console.WriteLine("There\'s no need to put letters.");
-                answers = new List<string>();
-                while(true)
+                if(line == "")
                 {
-                    currentLine = Console.ReadLine();
-
-                    if(currentLine.ToLower() == "" && answers.Count == 0)
-                        Console.WriteLine("You have to have at least one answer!");
-                    else if(currentLine.ToLower() == "" && answers.Count != 0)
-                    {
-                        questions.Add(CreateSingleQuestion(type, query, answers.ToArray()));
-                        break;
-                    }
-
-                    answers.Add(currentLine);
+                    parsing = false;
+                    questions.Add(CreateSingleQuestion(type, query, answers.ToArray()));
+                    type = 0;
+                    query = "";
+                    answers = new List<string>();
                 }
 
+                if(!parsing)
+                {
+                    if(types.Contains(Regex.Replace(line, "\\s", "").ToLower()))
+                    {
+                        parsing = true;
+                        type = (QuestionType)types.IndexOf(Regex.Replace(line, "\\s", "").ToLower());
+                    }
+                }
+                else
+                {
+                    if(query == "")
+                        query = line;
+                    else
+                        answers.Add(line);
+                }
             }
 
+            questions.Add(CreateSingleQuestion(type, query, answers.ToArray()));
             return questions.ToArray();
         }
 
@@ -67,13 +72,15 @@ namespace Trivia.NET.GameEnvironment
                         return new ShortAnswerQuestion(query, answers[0]);
                     return new ShortAnswerQuestion(query, answers);
                 case QuestionType.MultipleChoice:
-                    return new MultipleChoiceQuestion(query, answers);
+                    MultipleChoiceQuestion multiple = new MultipleChoiceQuestion(query, answers);
+                    multiple.GetCorrectAnswer(answers[answers.Length - 1]);
+                    return multiple;
                 case QuestionType.TrueFalse:
                     if(answers[0].ToLower() == "true" || answers[0].ToLower() == "t")
                         return new TrueFalseQuestion(query, true);
                     return new TrueFalseQuestion(query, false);
                 case QuestionType.FillBlank:
-                    if (answers.Length == 1)
+                    if(answers.Length == 1)
                         return new FillBlankQuestion(query, answers[0]);
                     return new FillBlankQuestion(query, answers);
             }

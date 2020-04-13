@@ -22,5 +22,14 @@ namespace Trivia.NET.QuizQuestion
         {
             return string.Format($"True or False: { Query }");
         }
+        public override bool CheckAnswer(string input)
+        {
+            if ((input == "true" || input == "t") && Answer)
+                return true;
+            else if ((input == "false" || input == "f") && !Answer)
+                return true;
+            
+            return false;
+        }
     }
 }

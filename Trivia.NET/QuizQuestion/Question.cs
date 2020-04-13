@@ -31,7 +31,7 @@ namespace Trivia.NET.QuizQuestion
             return Query;
         }
         public virtual void DisplayAnswers() { }
-        public bool CheckAnswer(string input)
+        public virtual bool CheckAnswer(string input)
         {
             if(Answer != "")
                 return input == Answer;

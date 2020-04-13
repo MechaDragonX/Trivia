@@ -43,7 +43,7 @@ namespace Trivia.NET.GameEnvironment
             Console.WriteLine($"The game is over! You got { Score }/{ Questions.Length } questions right!");
 
             if (Score == Questions.Length)
-                Console.WriteLine("You got a perfect Score!");
+                Console.WriteLine("You got a perfect score!");
             else if (Score > (Questions.Length / 2))
                 Console.WriteLine("You did very well!");
             else if (Score == (Questions.Length / 2))
