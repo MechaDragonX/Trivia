@@ -1,4 +1,4 @@
-# Majora
+# Trivia
 
 ## What is Triva?
 As the *genius* (and hopefully just a working) title suggests, this is a trivia program written in C# for the .NET Core runtime environment. One of my non-programming friends wanted do a Trivia competition using questions about the people our group. As this will be used by non-programmers, I'm working on a web version so it's easy to use for them.
