@@ -24,7 +24,7 @@ The answer to a true or false question must be written as "true", "t", "false", 
 Since multiple choice questions only have one correct answer, the letter of the correct answer must be written below all the questions. The user's input is case insensitive.
 
 ## How do I run it?
-You can get the latest binaries from the [releases tab](https://github.com/MechaDragonX/Bheithir/releases) when they are available.
+You can get the latest binaries from the [releases tab](https://github.com/MechaDragonX/Bheithir/releases). **Windows, Linux, and macOS builds for different types of environments are available.**
 
 ## Is it functional?
 At the moment it should be... Check the [issues](https://github.com/MechaDragonX/Bheithir/issues) tab for any issues.
