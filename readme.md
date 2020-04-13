@@ -22,6 +22,8 @@ The answers listed below the question are all considered possible answers and wh
 The answer to a true or false question must be written as "true", "t", "false", "f".
 ##### Multiple Choice Questions
 Since multiple choice questions only have one correct answer, the letter of the correct answer must be written below all the questions. The user's input is case insensitive.
+### Running
+You can put this question file in the application directory or paste the path into the program.
 
 ## How do I run it?
 You can get the latest binaries from the [releases tab](https://github.com/MechaDragonX/Bheithir/releases). **Windows, Linux, and macOS builds for different types of environments are available.**
