@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Trivia.NET.GameEnvironment;
 using Trivia.NET.QuizQuestion;
@@ -29,35 +30,56 @@ namespace Trivia.NET
             Console.WriteLine("Welcome to the quiz program! Press any \"enter\" to continue!");
             Console.ReadLine();
 
+            DirectoryInfo currentDir = Directory.CreateDirectory(Environment.CurrentDirectory);
+            Question[] questions = null;
+            //foreach (FileInfo file in currentDir.GetFiles())
+            //{
+            //    if (file.Extension == ".txt")
+            //        // questions = AutoStart().Result;
+            //}
+
+            questions = ManualStart();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("File successfully read!");
+            Console.ResetColor();
+            Console.WriteLine();
+
+            Game game = new Game(questions);
+            game.Execute();
+            Console.WriteLine("Thanks for playing!\nPress any key to exit.");
+            Console.ResetColor();
+            Console.ReadKey();
+        }
+
+        private static Question[] ManualStart()
+        {
             string input;
-            Task<Question[]> questionsTask;
-            Game game;
+            Task<Question[]> task;
             Console.WriteLine("Please write the path to your question/answer \"*.txt\" file");
             while(true)
             {
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 input = Console.ReadLine();
-                try
-                {
-                    questionsTask = QuestionImporter.ImportFromFile(input);
-                    Task.WaitAll(questionsTask);
-                    break;
-                }
-                catch(Exception e)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"ERROR: { e.InnerException.Message }");
-                    Console.ResetColor();
-                }
+                task = TryReadFile(input);
+                if(task.Status != TaskStatus.Faulted)
+                    return task.Result;
             }
-            Console.ResetColor();
-            Console.WriteLine();
-
-            game = new Game(questionsTask.Result);
-            game.Execute();
-            Console.WriteLine("Thanks for playing!\nPress any key to exit.");
-            Console.ResetColor();
-            Console.ReadKey();
+        }
+        private static Task<Question[]> TryReadFile(string path)
+        {
+            Task<Question[]> questionsTask = null;
+            try
+            {
+                questionsTask = QuestionImporter.ImportFromFile(path);
+                Task.WaitAll(questionsTask);
+            }
+            catch (Exception e)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"ERROR: { e.InnerException.Message }");
+                Console.ResetColor();
+            }
+            return questionsTask;
         }
     }
 }
