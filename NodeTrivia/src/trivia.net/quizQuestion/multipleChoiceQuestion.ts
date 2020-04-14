@@ -2,10 +2,8 @@
     export class MultipleChoiceQuestion extends Question {
         correct: string;
 
-        super(query: string, answers: string[]) {
-            this.type = QuestionType.MultipleChoice;
-            this.query = query;
-            this.answers = answers;
+        constructor(query: string, answers: string[]) {
+            super(QuestionType.MultipleChoice, query, answers);
         }
 
         displayAnswers(): any {

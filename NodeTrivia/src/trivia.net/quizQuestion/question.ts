@@ -1,8 +1,8 @@
 ﻿namespace QuizQuestion {
     export class Question {
         type: QuestionType;
-        query: any;
-        answer: string;
+        query: string;
+        answer: any;
         answers: string[];
 
         constructor(type: QuestionType, query: string, answers: string[]) {
@@ -18,10 +18,10 @@
         checkAnswer(input: string): boolean
         {
             if(this.answer != "")
-                return input == this.answer;
+                return input === this.answer;
 
             this.answers.forEach(function(item: string) {
-                if(input == item)
+                if(input === item)
 	                return true;
             });
             return false;

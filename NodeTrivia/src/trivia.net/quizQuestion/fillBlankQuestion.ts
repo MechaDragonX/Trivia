@@ -1,9 +1,7 @@
 ﻿namespace QuizQuestion {
     export class FillBlankQuestion extends Question {
-        super(query: string, answers: string[]) {
-            this.type = QuestionType.FillBlank;
-            this.query = query;
-            this.answers = answers;
+        constructor(query: string, answers: string[]) {
+            super(QuestionType.FillBlank, query, answers);
         }
     }
 }

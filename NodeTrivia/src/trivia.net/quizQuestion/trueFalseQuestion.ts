@@ -1,9 +1,8 @@
 ﻿namespace QuizQuestion {
     export class TrueFalseQuestion extends Question {
-        super(query: string, answers: string[]) {
-            this.type = QuestionType.TrueFalse;
-            this.query = query;
-            this.answers = answers;
+        constructor(query: string, answer: boolean) {
+            super(QuestionType.TrueFalse, query, null);
+            this.answer = answer;
         }
 
         displayQuestion(): string
@@ -12,9 +11,9 @@
         }
         checkAnswer(input: string): boolean
         {
-            if((input == "true" || input == "t") && this.answer)
+            if((input === "true" || input === "t") && this.answer)
                 return true;
-            else if((input == "false" || input == "f") && !this.answer)
+            else if((input === "false" || input === "f") && !this.answer)
                 return true;
             
             return false;
