@@ -1,6 +1,4 @@
-﻿
-
-namespace GameEnvironment {
+﻿namespace GameEnvironment {
     export class Game {
         questions: QuizQuestion.Question[];
         score: number;
