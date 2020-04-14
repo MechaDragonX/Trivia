@@ -1,4 +1,6 @@
-﻿namespace GameEnvironment {
+﻿import { TxtReader } from "txt-reader";
+
+namespace GameEnvironment {
     export class QuestionImporter {
         types: string[] = [
             QuizQuestion.QuestionType.ShortAnswer.toString().toLowerCase(),
@@ -7,6 +9,61 @@
             QuizQuestion.QuestionType.FillBlank.toString().toLowerCase()
         ];
 
+        async importFromFile(file: any): Promise<QuizQuestion.Question[]> {
+            let reader: TxtReader = new TxtReader();
+            let imported: any = null;
+            reader.loadFile(file)
+            .then(function(res) {
+                imported = res.result;
+            })
+            .catch(function(res) {
+                throw new Error('File load failed!');
+            });
+
+            let data: any = new Array<string>();
+            reader.getLines(1, 100000)
+            .then(function(res) {
+                data = res.result;
+            })
+            .catch(function(res) {
+                throw new Error('Obtaining lines from file failed!');
+            });
+
+            let questions: QuizQuestion.Question[] = new Array<QuizQuestion.Question>();
+            let type: QuizQuestion.QuestionType = 0;
+            let query: string = "";
+            let answers: string[] = new Array<string>();
+            let parsing: boolean = false;
+            data.forEach(function(line: string) {
+                if(line == "")
+                {
+                    parsing = false;
+                    questions.push(this.createSingleQuestion(type, query, answers));
+                    type = 0;
+                    query = "";
+                    answers = new Array<string>();
+                }
+
+                if(!parsing)
+                {
+                    if(this.types.includes(line.replace("\\s", "")))
+                    {
+                        parsing = true;
+                        type = this.types.indexOf(line.replace("\\s", "").toLowerCase());
+                    }
+                }
+                else
+                {
+                    if(query == "")
+                        query = line;
+                    else
+                        answers.push(line);
+                }
+            });
+
+            questions.push(this.createSingleQuestion(type, query, answers));
+            return questions;
+        }
         createSingleQuestion(type: QuizQuestion.QuestionType, query: string, answers: string[]): QuizQuestion.Question {
             switch(type)
             {

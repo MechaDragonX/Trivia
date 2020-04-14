@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/node": "^13.11.1",
     "express": "^4.17.1",
-    "express-handlebars": "^4.0.3"
+    "express-handlebars": "^4.0.3",
+    "txt-reader": "^1.4.5"
   }
 }
