@@ -1,4 +1,4 @@
-﻿import { TxtReader } from "txt-reader";
+﻿import { TxtReader } from 'txt-reader';
 
 namespace GameEnvironment {
     export class QuestionImporter {
@@ -43,7 +43,7 @@ namespace GameEnvironment {
                     multiple.getCorrectAnswer(answers[answers.length - 1]);
                     return multiple;
                 case QuizQuestion.QuestionType.TrueFalse:
-                    if(answers[0].toLowerCase() == "true" || answers[0].toLowerCase() == "t")
+                    if(answers[0].toLowerCase() == 'true' || answers[0].toLowerCase() == 't')
                         return new QuizQuestion.TrueFalseQuestion(query, true);
                     return new QuizQuestion.TrueFalseQuestion(query, false);
                 case QuizQuestion.QuestionType.FillBlank:
@@ -55,30 +55,30 @@ namespace GameEnvironment {
         createQuestions(data: any): QuizQuestion.Question[] {
             let questions: QuizQuestion.Question[] = new Array<QuizQuestion.Question>();
             let type: QuizQuestion.QuestionType = 0;
-            let query: string = "";
+            let query: string = '';
             let answers: string[] = new Array<string>();
             let parsing: boolean = false;
             data.forEach(function(line: string) {
-                if(line == "")
+                if(line == '')
                 {
                     parsing = false;
                     questions.push(this.createSingleQuestion(type, query, answers));
                     type = 0;
-                    query = "";
+                    query = '';
                     answers = new Array<string>();
                 }
 
                 if(!parsing)
                 {
-                    if(this.types.includes(line.replace("\\s", "")))
+                    if(this.types.includes(line.replace('\\s', '')))
                     {
                         parsing = true;
-                        type = this.types.indexOf(line.replace("\\s", "").toLowerCase());
+                        type = this.types.indexOf(line.replace('\\s', '').toLowerCase());
                     }
                 }
                 else
                 {
-                    if(query == "")
+                    if(query == '')
                         query = line;
                     else
                         answers.push(line);

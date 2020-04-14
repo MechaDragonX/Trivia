@@ -11,9 +11,9 @@
         }
         checkAnswer(input: string): boolean
         {
-            if((input === "true" || input === "t") && this.answer)
+            if((input === 'true' || input === 't') && this.answer)
                 return true;
-            else if((input === "false" || input === "f") && !this.answer)
+            else if((input === 'false' || input === 'f') && !this.answer)
                 return true;
             
             return false;

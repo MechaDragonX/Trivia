@@ -17,7 +17,7 @@
         displayAnswers(): any { }
         checkAnswer(input: string): boolean
         {
-            if(this.answer != "")
+            if(this.answer != '')
                 return input === this.answer;
 
             this.answers.forEach(function(item: string) {
