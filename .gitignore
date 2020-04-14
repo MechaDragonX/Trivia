@@ -341,3 +341,10 @@ healthchecksdb
 
 # Test Directory
 Test/
+
+# Node Files
+node_modules/
+package-lock.json
+
+# Compiled TypeScript Files
+src/compiled/

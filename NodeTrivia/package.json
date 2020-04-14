@@ -1,0 +1,29 @@
+{
+  "name": "nodetrivia",
+  "version": "0.1.0",
+  "description": "A web-based trivia game",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "ts-node src/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MechaDragonX/Trivia.git"
+  },
+  "keywords": [
+    "trivia",
+    "quiz",
+    "game"
+  ],
+  "author": "Raghav Vivek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MechaDragonX/Trivia/issues"
+  },
+  "homepage": "https://github.com/MechaDragonX/Trivia#readme",
+  "dependencies": {
+    "@types/node": "^13.11.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.3"
+  }
+}
