@@ -1,30 +1,30 @@
-﻿namespace QuizQuestion {
-    export class Question {
-        type: QuestionType;
-        query: string;
-        answer: any;
-        answers: string[];
+﻿import { QuestionType } from './questionType';
 
-        constructor(type: QuestionType, query: string, answers: string[]) {
-            this.type = type;
-            this.query = query;
-            this.answers = answers;
-        }
+export class Question {
+    type: QuestionType;
+    query: string;
+    answer: any;
+    answers: string[];
 
-        displayQuestion(): string {
-            return this.query;
-        }
-        displayAnswers(): any { }
-        checkAnswer(input: string): boolean
-        {
-            if(this.answer != '')
-                return input === this.answer;
+    constructor(type: QuestionType, query: string, answers: string[]) {
+        this.type = type;
+        this.query = query;
+        this.answers = answers;
+    }
 
-            this.answers.forEach(function(item: string) {
-                if(input === item)
-	                return true;
-            });
-            return false;
-        }
+    displayQuestion(): string {
+        return this.query;
+    }
+    displayAnswers(): any { }
+    checkAnswer(input: string): boolean
+    {
+        if(this.answer != '')
+            return input === this.answer;
+
+        this.answers.forEach(function(item: string) {
+            if(input === item)
+                return true;
+        });
+        return false;
     }
 }

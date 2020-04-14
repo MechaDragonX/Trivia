@@ -1,32 +1,33 @@
-﻿namespace QuizQuestion {
-    export class MultipleChoiceQuestion extends Question {
-        correct: string;
+﻿import { QuestionType } from './questionType';
+import { Question } from './question';
 
-        constructor(query: string, answers: string[]) {
-            super(QuestionType.MultipleChoice, query, answers);
-        }
+export class MultipleChoiceQuestion extends Question {
+    correct: string;
 
-        displayAnswers(): any {
-            let letter: number = 64; // @ in ASCII
-            let display: string;
-            this.answers.forEach(function(item: string) {
-                letter++;
-                display = `${ String.fromCharCode(letter) }: ${ item }`;
-            });
-            return display;
-        }
+    constructor(query: string, answers: string[]) {
+        super(QuestionType.MultipleChoice, query, answers);
+    }
 
-        getCorrectAnswer(input: string): void
-        {
-            let newAnswers: string[] = this.answers;
-            newAnswers.splice(this.answers.length - 1);
-            this.answers = newAnswers;
+    displayAnswers(): any {
+        let letter: number = 64; // @ in ASCII
+        let display: string;
+        this.answers.forEach(function(item: string) {
+            letter++;
+            display = `${ String.fromCharCode(letter) }: ${ item }`;
+        });
+        return display;
+    }
 
-            this.correct = this.answers[input.toUpperCase().charAt(0).charCodeAt(0) - 93];
-        }
-        checkAnswer(input: string): boolean
-        {
-            return super.checkAnswer(this.answers[input.toUpperCase().charAt(0).charCodeAt(0) - 93]);
-        }
+    getCorrectAnswer(input: string): void
+    {
+        let newAnswers: string[] = this.answers;
+        newAnswers.splice(this.answers.length - 1);
+        this.answers = newAnswers;
+
+        this.correct = this.answers[input.toUpperCase().charAt(0).charCodeAt(0) - 93];
+    }
+    checkAnswer(input: string): boolean
+    {
+        return super.checkAnswer(this.answers[input.toUpperCase().charAt(0).charCodeAt(0) - 93]);
     }
 }
